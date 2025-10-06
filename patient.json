@@ -494,5 +494,93 @@
     "phoneNumber": "9789767800",
     "discount": "5",
     "validTill": "2026-10-01"
+  },
+  {
+    "cardNo": "CARD-1759586277407",
+    "patientId": "2024-2025/15",
+    "patientName": "Mr. SOMESH",
+    "phoneNumber": "9969205149",
+    "discount": "15",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759589786685",
+    "patientId": "801",
+    "patientName": "Umesh",
+    "phoneNumber": "9878776878",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759589868410",
+    "patientId": "802",
+    "patientName": "Suresh",
+    "phoneNumber": "9887879098",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759590171962",
+    "patientId": "803",
+    "patientName": "yash",
+    "phoneNumber": "9978087876",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759594499804",
+    "patientId": "808",
+    "patientName": "Mazhar sir",
+    "phoneNumber": "8989876879",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759595281344",
+    "patientId": "809",
+    "patientName": "Dogesh",
+    "phoneNumber": "9989766889",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759595384662",
+    "patientId": "099",
+    "patientName": "pojjoi",
+    "phoneNumber": "8807789800",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759597644452",
+    "patientId": "901",
+    "patientName": "uiasui",
+    "phoneNumber": "9887687887",
+    "discount": "5",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759600999966",
+    "patientId": "709",
+    "patientName": "uiuoen",
+    "phoneNumber": "7679900992",
+    "discount": "15",
+    "validTill": "2026-10-03"
+  },
+  {
+    "cardNo": "CARD-1759651154267",
+    "patientId": "301",
+    "patientName": "Shanu",
+    "phoneNumber": "7980997868",
+    "discount": 25,
+    "validTill": "2026-10-04"
+  },
+  {
+    "cardNo": "CARD-1759734052725",
+    "patientId": "702",
+    "patientName": "Kaif",
+    "phoneNumber": "8980989799",
+    "discount": 25,
+    "validTill": "2026-10-05"
   }
 ]

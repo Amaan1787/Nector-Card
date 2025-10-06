@@ -3,7 +3,6 @@ let currentPatient = null;
 // Search patient
 document.getElementById("cardForm").addEventListener("submit", async function (e) {
   e.preventDefault();
-
   const patientId = document.getElementById("patientId").value.trim();
   const messageDiv = document.getElementById("message");
   const patientDetails = document.getElementById("patientDetails");
@@ -28,7 +27,6 @@ document.getElementById("cardForm").addEventListener("submit", async function (e
   try {
     const response = await fetch("/patients");
     if (!response.ok) throw new Error("Failed to load patient data.");
-
     const patients = await response.json();
     const data = patients.find((p) => p.patientId === patientId);
 
@@ -88,6 +86,7 @@ Valid Till: ${data.validTill}`,
 
     // Show Generate Card button
     generateCardBtn.style.display = "inline-block";
+
   } catch (error) {
     messageDiv.textContent = "❌ Error: " + error.message;
     messageDiv.classList.add("error");
@@ -133,11 +132,9 @@ document.getElementById("shareBtn").addEventListener("click", () => {
 // Edit patient
 document.getElementById("editBtn").addEventListener("click", () => {
   if (!currentPatient) return;
-
   const editForm = document.getElementById("editForm");
   editForm.style.display = "block";
   editForm.classList.add("active");
-
   document.getElementById("editName").value = currentPatient.patientName;
   document.getElementById("editPhone").value = currentPatient.phoneNumber;
   document.getElementById("editDiscount").value = currentPatient.discount;
@@ -176,9 +173,7 @@ document.getElementById("saveEditBtn").addEventListener("click", async () => {
       body: JSON.stringify(updatedPatient),
     });
     if (!res.ok) throw new Error("Update failed");
-
     alert("✅ Patient updated successfully!");
-
     const editForm = document.getElementById("editForm");
     editForm.style.display = "none";
     editForm.classList.remove("active");
@@ -220,10 +215,12 @@ function drawPatientCard(patient) {
   ctx.fillText(patient.patientId, 560, 195);
   ctx.fillText(patient.patientName, 560, 260);
   ctx.fillText(patient.phoneNumber, 560, 340);
-
   ctx.font = "bold 16px Arial";
   ctx.fillText(`Discount: ${patient.discount}%`, 450, 400);
   ctx.fillText(`Valid Till: ${patient.validTill}`, 450, 430);
+
+  // Show canvas buttons - NEW
+  showCanvasButtons();
 
   // Scroll to canvas
   canvasContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -241,4 +238,85 @@ generateCardBtn.addEventListener("click", () => {
 // Close canvas on X button click
 closeCanvasBtn.addEventListener("click", () => {
   canvasContainer.style.display = "none";
+});
+
+// ============================
+// 👉 Canvas Button Functions - NEW
+// ============================
+
+// Show canvas buttons when card is generated
+function showCanvasButtons() {
+  document.getElementById("downloadCanvasBtn").style.display = "inline-block";
+  document.getElementById("shareCanvasBtn").style.display = "inline-block";
+}
+
+// Canvas Download functionality
+document.getElementById("downloadCanvasBtn").addEventListener("click", function() {
+  const canvas = document.getElementById("cardCanvas");
+  const imgURI = canvas.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.href = imgURI;
+  a.download = "nector_patient_card.png";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
+// Canvas Share functionality
+document.getElementById("shareCanvasBtn").addEventListener("click", async function() {
+  const canvas = document.getElementById("cardCanvas");
+  
+  try {
+    // Show loading state
+    const originalText = this.innerHTML;
+    this.innerHTML = "📤 Sharing...";
+    this.disabled = true;
+
+    // Convert canvas to blob
+    canvas.toBlob(async (blob) => {
+      try {
+        const file = new File([blob], "nector-patient-card.png", { 
+          type: "image/png" 
+        });
+        
+        // Check if Web Share API is supported
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Patient Card - Nector Hospital",
+            text: "Here is the patient card from Nector Hospital.",
+            files: [file]
+          });
+        } else {
+          // Fallback: Create download link for desktop
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "nector-patient-card.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          
+          alert("Card downloaded! (Sharing not supported on this device)");
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error("Error sharing:", error);
+          alert("Error sharing card. Please try again.");
+        }
+      } finally {
+        // Restore button state
+        this.innerHTML = originalText;
+        this.disabled = false;
+      }
+    }, 'image/png', 0.9);
+    
+  } catch (error) {
+    console.error("Error creating image:", error);
+    alert("Error creating card image. Please try again.");
+    
+    // Restore button state
+    this.innerHTML = originalText;
+    this.disabled = false;
+  }
 });

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nector Hospital - Patient Card Generator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- <div class="nav-link">
+    <a href="patient-list.html">← View Patient List</a>
+  </div> -->
+  <div class="header">
+    <h1>Nector Hospital</h1>
+    <a href="patient-list.html" class="nav-link">
+      <span>←</span>
+      <span>View Patient List</span>
+    </a>
+  </div>
+
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <h2>Generate Nector Hospital Loyalty Card</h2>
+      <form id="cardForm">
+        <div class="input-group">
+          <label for="patientId">Patient ID:</label>
+          <input type="text" id="patientId" name="patientId" required />
+        </div>
+
+        <div class="input-group">
+          <label for="patientName">Patient Name:</label>
+          <input type="text" id="patientName" name="patientName" required />
+        </div>
+
+        <div class="input-group">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" required />
+        </div>
+
+        <label for="address">Address:</label>
+        <textarea name="address" id="address" maxlength="100" rows="2" placeholder="Enter address" required></textarea>
+        <div id="charCount" style="font-size: 12px; color: #666; margin-top: 5px;">100 characte</div>
+
+        <div class="input-group">
+          <label for="discountPercent">Select Discount Percentage:</label>
+          <select id="discountPercent" name="discountPercent" required>
+            <option value="5">5%</option>
+            <option value="10">10%</option>
+            <option value="15">15%</option>
+            <option value="20">20%</option>
+            <option value="25">25%</option>
+          </select>
+        </div>
+
+        <button type="submit" id="generateBtn" class="generate-btn">Generate Card</button>
+      </form>
+
+      <div id="messageBox" class="message-box"></div>
+    </div>
+
+    <!-- Canvas Section -->
+    <div class="canvas-section">
+      <canvas id="loyaltyCard" width="800" height="512"></canvas>
+
+      <!-- Action buttons moved here below canvas -->
+      <div class="canvas-buttons">
+        <button id="downloadBtn" class="download-btn">Download Card</button>
+        <button id="shareBtn" class="share-btn">Share Card</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="patient-card.js"></script>
+</body>
+
+</html>
