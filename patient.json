@@ -656,5 +656,14 @@
     "address": "room202,gokul bld, powder gali, goregao, mumbai",
     "discount": "25",
     "validTill": "2026-10-06"
+  },
+  {
+    "cardNo": "CARD-1759845146984",
+    "patientId": "69",
+    "patientName": "Krish",
+    "phoneNumber": "9768756633",
+    "address": "aksnkbs sauyfuenabjsuya skjasbjsay saiuyaak suiayte",
+    "discount": "5",
+    "validTill": "2026-10-06"
   }
 ]
