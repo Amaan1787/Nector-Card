@@ -12,17 +12,18 @@
     "patientId": "101",
     "patientName": "Aman",
     "phoneNumber": "8898173510",
-    "discount": "5",
-    "validTill": "2026-10-05",
-    "address": "sabera house no1, dargha road, mumbra thane - 400612"
+    "discount": 22,
+    "validTill": "2029-10-05",
+    "address": "dargha road, mumbra thane - 400612"
   },
   {
-    "cardNo": "CARD-1758870511893",
+    "cardNo": "CARD-1759833792438",
     "patientId": "102",
-    "patientName": "Roy",
-    "phoneNumber": "8987876757",
+    "patientName": "Shinchan",
+    "phoneNumber": "7789887678",
     "discount": "25",
-    "validTill": "2026-09-25"
+    "validTill": "2026-10-06",
+    "address": "oenkjs sutuyds strytevs siutebsjsf ssbnmcvg sutyecs"
   },
   {
     "cardNo": "CARD-1758870744346",
@@ -619,5 +620,41 @@
     "address": "sabera house no1, dargha road, mumbra thane -  400612",
     "discount": "15",
     "validTill": "2026-10-05"
+  },
+  {
+    "cardNo": "CARD-1759820975747",
+    "patientId": "41",
+    "patientName": "Umesh",
+    "phoneNumber": "9879869099",
+    "address": "Rm 02, Sk residency, Kausa, mumbra thane 400612",
+    "discount": "25",
+    "validTill": "2026-10-06"
+  },
+  {
+    "cardNo": "CARD-1759821056970",
+    "patientId": "12",
+    "patientName": "yehsank",
+    "phoneNumber": "7870998878",
+    "address": "sdakhsiagnekjnsaytusyasdasnkjnsnskjytuytaiaiu",
+    "discount": "5",
+    "validTill": "2026-10-06"
+  },
+  {
+    "cardNo": "CARD-1759832559786",
+    "patientId": "51",
+    "patientName": "Maya",
+    "phoneNumber": "8887989878",
+    "address": "sakuyyuen uyue iueuyrte isncsjy sauiuen sgcvgst",
+    "discount": "20",
+    "validTill": "2026-10-06"
+  },
+  {
+    "cardNo": "CARD-1759841936576",
+    "patientId": "91",
+    "patientName": "Suyash",
+    "phoneNumber": "8898977666",
+    "address": "room202,gokul bld, powder gali, goregao, mumbai",
+    "discount": "25",
+    "validTill": "2026-10-06"
   }
 ]
