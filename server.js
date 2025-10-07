@@ -44,8 +44,19 @@ app.post("/patients", (req, res) => {
   try {
     const newPatient = req.body;
 
-    if (!newPatient.patientId || !newPatient.patientName || !newPatient.phoneNumber) {
+    if (
+      !newPatient.patientId ||
+      !newPatient.patientName ||
+      !newPatient.phoneNumber
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Additional validation for address length
+    if (newPatient.address && newPatient.address.length > 60) {
+      return res
+        .status(400)
+        .json({ error: "Address cannot exceed 60 characters" });
     }
 
     let currentData = readData();
@@ -57,9 +68,17 @@ app.post("/patients", (req, res) => {
 
     if (existingIndex !== -1) {
       // If exists → update
-      currentData[existingIndex] = { ...currentData[existingIndex], ...newPatient };
+      currentData[existingIndex] = {
+        ...currentData[existingIndex],
+        ...newPatient,
+      };
       writeData(currentData);
-      return res.status(200).json({ message: "Patient updated", patient: currentData[existingIndex] });
+      return res
+        .status(200)
+        .json({
+          message: "Patient updated",
+          patient: currentData[existingIndex],
+        });
     }
 
     // Else add new

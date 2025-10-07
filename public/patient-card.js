@@ -35,7 +35,7 @@ class NectorHospitalCardGenerator {
         
         if (addressField && charCount) {
             addressField.addEventListener("input", () => {
-                const remaining = 100 - addressField.value.length;
+                const remaining = 60 - addressField.value.length;
                 charCount.textContent = `${remaining} characters remaining`;
                 charCount.style.color = remaining < 20 ? "red" : "#666";
             });
@@ -63,8 +63,8 @@ class NectorHospitalCardGenerator {
         }
 
         // Address validation
-        if (address.length > 100) {
-            this.showMessage("⚠️ Address too long. Maximum 100 characters allowed.", true);
+        if (address.length > 60) {
+            this.showMessage("⚠️ Address too long. Maximum 60 characters allowed.", true);
             return;
         }
 
@@ -104,13 +104,13 @@ class NectorHospitalCardGenerator {
     }
 
     splitAddress(address) {
-        if (address.length <= 50) {
+        if (address.length <= 30) {
             return { line1: address, line2: "" };
         }
         
         // Find best split point (prefer word boundary)
-        let splitPoint = address.lastIndexOf(' ', 50);
-        if (splitPoint === -1) splitPoint = 50;
+        let splitPoint = address.lastIndexOf(' ', 30);
+        if (splitPoint === -1) splitPoint = 30;
         
         return {
             line1: address.substring(0, splitPoint).trim(),
@@ -131,25 +131,25 @@ class NectorHospitalCardGenerator {
         this.ctx.fillStyle = "#000";
         
         // Patient ID - updated position
-        this.ctx.fillText(cardData.patientId, 515, 250);
+        this.ctx.fillText(cardData.patientId, 500, 188);
         
         // Name - updated position  
-        this.ctx.fillText(cardData.patientName, 515, 310);
+        this.ctx.fillText(cardData.patientName, 500, 235);
         
         // Phone - updated position
-        this.ctx.fillText(cardData.phoneNumber, 515, 370);
+        this.ctx.fillText(cardData.phoneNumber, 500, 280);
 
         // Address - 2 lines with updated positions
         const addressLines = this.splitAddress(cardData.address);
-        this.ctx.fillText(addressLines.line1, 515, 430); // Line 1
+        this.ctx.fillText(addressLines.line1, 480, 330); // Line 1
         if (addressLines.line2) {
-            this.ctx.fillText(addressLines.line2, 515, 455); // Line 2
+            this.ctx.fillText(addressLines.line2, 480, 355); // Line 2
         }
 
         // Discount and validity
         this.ctx.font = "bold 16px Arial";
-        this.ctx.fillText(`Discount UPTO: ${cardData.discount}%`, 450, 500);
-        this.ctx.fillText(`Valid Till: ${cardData.validTill}`, 450, 525);
+        this.ctx.fillText(`Discount UPTO: ${cardData.discount}%`, 455, 400);
+        this.ctx.fillText(`Valid Till: ${cardData.validTill}`, 455, 425);
     }
 
     drawDefaultCard() {
@@ -159,7 +159,7 @@ class NectorHospitalCardGenerator {
         }
         this.ctx.font = "italic 16px Arial";
         this.ctx.fillStyle = "#aaa";
-        this.ctx.fillText("Fill the form to generate the card", 20, 180);
+        // this.ctx.fillText("Fill the form to generate the card", 20, 180);
     }
 
     drawFallbackCard() {

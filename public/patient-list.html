@@ -1,130 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nector Hospital - Patient List</title>
-    <link rel="stylesheet" href="patient-list.css" />
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <div class="header">
-        <h1>Nector Hospital</h1>
-        <a href="index.html" class="nav-link">
-          <span>←</span>
-          <span>Back to Patient Card</span>
-        </a>
-      </div>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Side Content -->
-        <div class="left-content">
-          <!-- Search Section -->
-          <div class="search-section">
-            <h2>Search Patient</h2>
-            <form id="cardForm">
-              <div class="form-group">
-                <label for="patientId">Patient ID</label>
-                <input
-                  type="text"
-                  id="patientId"
-                  placeholder="Enter Patient ID"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn-primary">Search Patient</button>
-              <button
-                type="button"
-                id="generateCardBtn"
-                class="btn-primary"
-                style="display: none; margin-top: 10px; background: #4caf50;"
-              >
-                Generate Card
-              </button>
-            </form>
-            <div id="message" class="message"></div>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nector Hospital - Patient List</title>
+  <link rel="stylesheet" href="patient-list.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+</head>
 
-          <!-- Results Section - Green QR Card -->
-          <div class="results-section" id="patientDetails">
-            <div class="results-header">
-              <h3>Patient Loyalty Card</h3>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Nector Hospital</h1>
+      <a href="index.html" class="nav-link">
+        <span>←</span>
+        <span>Back to Patient Card</span>
+      </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Left Side Content -->
+      <div class="left-content">
+        <!-- Search Section -->
+        <div class="search-section">
+          <h2>Search Patient</h2>
+          <form id="cardForm">
+            <div class="form-group">
+              <label for="patientId">Patient ID</label>
+              <input type="text" id="patientId" placeholder="Enter Patient ID" required />
             </div>
-
-            <div id="loyaltyCard" class="loyalty-card">
-              <h2>Nector Hospital</h2>
-              <div class="card-info">
-                <p><strong>Card No:</strong> <span id="displayCardNo">-</span></p>
-                <p><strong>Patient ID:</strong> <span id="displayId">-</span></p>
-                <p><strong>Name:</strong> <span id="displayName">-</span></p>
-                <p><strong>Phone:</strong> <span id="displayPhone">-</span></p>
-                <p><strong>Discount:</strong> <span id="displayDiscount">-</span></p>
-                <p><strong>Valid Till:</strong> <span id="displayExpiry">-</span></p>
-              </div>
-              <div id="qrcode"></div>
-            </div>
-
-            <div class="action-buttons">
-              <button id="downloadBtn" class="btn-action btn-download">📥 Download</button>
-              <button id="shareBtn" class="btn-action btn-share">📤 Share</button>
-              <button id="editBtn" class="btn-action btn-edit">✏️ Edit</button>
-            </div>
-          </div>
+            <button type="submit" class="btn-primary">Search Patient</button>
+            <button type="button" id="generateCardBtn" class="btn-primary"
+              style="display: none; margin-top: 10px; background: #4caf50;">
+              Generate Card
+            </button>
+          </form>
+          <div id="message" class="message"></div>
         </div>
 
-        <!-- Right Side - Canvas Card Preview -->
-        <div class="canvas-section" id="canvasContainer" style="display: none;">
-          <div class="canvas-header">
-            <h3>Generated Card Preview</h3>
-            <button id="closeCanvasBtn" class="close-btn">✕</button>
+        <!-- Results Section - Green QR Card -->
+        <div class="results-section" id="patientDetails">
+          <div class="results-header">
+            <h3>Patient Loyalty Card</h3>
           </div>
-          <canvas id="cardCanvas" width="800" height="512"></canvas>
-          
-          <!-- Canvas Buttons - NEW -->
-          <div class="canvas-buttons">
-            <button id="downloadCanvasBtn" class="btn-canvas btn-download" style="display: none;">Download Card</button>
-            <button id="shareCanvasBtn" class="btn-canvas btn-share" style="display: none;">Share Card</button>
+
+          <div id="loyaltyCard" class="loyalty-card">
+            <h2>Nector Hospital</h2>
+            <div class="card-info">
+              <p><strong>Card No:</strong> <span id="displayCardNo">-</span></p>
+              <p><strong>Patient ID:</strong> <span id="displayId">-</span></p>
+              <p><strong>Name:</strong> <span id="displayName">-</span></p>
+              <p><strong>Phone:</strong> <span id="displayPhone">-</span></p>
+              <p><strong>Address:</strong> <span id="patientAddress">-</span></p>
+              <p><strong>Discount:</strong> <span id="displayDiscount">-</span></p>
+              <p><strong>Valid Till:</strong> <span id="displayExpiry">-</span></p>
+            </div>
+            <div id="qrcode"></div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="downloadBtn" class="btn-action btn-download">📥 Download</button>
+            <button id="shareBtn" class="btn-action btn-share">📤 Share</button>
+            <button id="editBtn" class="btn-action btn-edit">✏️ Edit</button>
           </div>
         </div>
       </div>
 
-      <!-- Edit Section -->
-      <div id="editForm" class="edit-section">
-        <h3>✏️ Edit Patient Information</h3>
-        <div class="edit-form">
-          <div class="form-group">
-            <label for="editName">Name</label>
-            <input type="text" id="editName" placeholder="Enter patient name" />
-          </div>
-          <div class="form-group">
-            <label for="editPhone">Phone</label>
-            <input type="text" id="editPhone" placeholder="Enter phone number" />
-          </div>
-          <div class="form-group">
-            <label for="editDiscount">Discount (%)</label>
-            <input
-              type="number"
-              id="editDiscount"
-              min="1"
-              max="100"
-              placeholder="Enter discount percentage"
-            />
-          </div>
-          <div class="form-group">
-            <label for="editExpiry">Valid Till</label>
-            <input type="date" id="editExpiry" />
-          </div>
-          <button id="saveEditBtn" class="btn-save">💾 Save Changes</button>
+      <!-- Right Side - Canvas Card Preview -->
+      <div class="canvas-section" id="canvasContainer" style="display: none;">
+        <div class="canvas-header">
+          <h3>Generated Card Preview</h3>
+          <button id="closeCanvasBtn" class="close-btn">✕</button>
+        </div>
+        <canvas id="cardCanvas" width="800" height="512"></canvas>
+
+        <!-- Canvas Buttons - NEW -->
+        <div class="canvas-buttons">
+          <button id="downloadCanvasBtn" class="btn-canvas btn-download" style="display: none;">Download Card</button>
+          <button id="shareCanvasBtn" class="btn-canvas btn-share" style="display: none;">Share Card</button>
         </div>
       </div>
     </div>
 
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="patient-list.js"></script>
-  </body>
+    <!-- Edit Section -->
+    <div id="editForm" class="edit-section">
+      <h3>✏️ Edit Patient Information</h3>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="editName">Name</label>
+          <input type="text" id="editName" placeholder="Enter patient name" />
+        </div>
+        <div class="form-group">
+          <label for="editPhone">Phone</label>
+          <input type="text" id="editPhone" placeholder="Enter phone number" />
+        </div>
+        <div class="form-group">
+          <label for="editAddress">Address</label>
+          <textarea name="address" id="address" maxlength="100" rows="2" placeholder="Enter address"
+            required></textarea>
+          <small style="color: #666; font-size: 12px;">Maximum 100 characters</small>
+        </div>
+        <div class="form-group">
+          <label for="editDiscount">Discount (%)</label>
+          <input type="number" id="editDiscount" min="1" max="100" placeholder="Enter discount percentage" />
+        </div>
+        <div class="form-group">
+          <label for="editExpiry">Valid Till</label>
+          <input type="date" id="editExpiry" />
+        </div>
+        <button id="saveEditBtn" class="btn-save">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="patient-list.js"></script>
+</body>
+
 </html>

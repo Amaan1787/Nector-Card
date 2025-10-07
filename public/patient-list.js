@@ -1,97 +1,103 @@
 let currentPatient = null;
 
 // Search patient
-document.getElementById("cardForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const patientId = document.getElementById("patientId").value.trim();
-  const messageDiv = document.getElementById("message");
-  const patientDetails = document.getElementById("patientDetails");
-  const generateCardBtn = document.getElementById("generateCardBtn");
-  const canvasContainer = document.getElementById("canvasContainer");
+document
+  .getElementById("cardForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const patientId = document.getElementById("patientId").value.trim();
+    const messageDiv = document.getElementById("message");
+    const patientDetails = document.getElementById("patientDetails");
+    const generateCardBtn = document.getElementById("generateCardBtn");
+    const canvasContainer = document.getElementById("canvasContainer");
 
-  // Reset UI
-  messageDiv.textContent = "";
-  messageDiv.className = "message";
-  patientDetails.style.display = "none";
-  patientDetails.classList.remove("active");
-  generateCardBtn.style.display = "none";
-  canvasContainer.style.display = "none";
+    // Reset UI
+    messageDiv.textContent = "";
+    messageDiv.className = "message";
+    patientDetails.style.display = "none";
+    patientDetails.classList.remove("active");
+    generateCardBtn.style.display = "none";
+    canvasContainer.style.display = "none";
 
-  // Validate input
-  if (!patientId) {
-    messageDiv.textContent = "⚠️ Please enter a valid Patient ID.";
-    messageDiv.classList.add("error");
-    return;
-  }
-
-  try {
-    const response = await fetch("/patients");
-    if (!response.ok) throw new Error("Failed to load patient data.");
-    const patients = await response.json();
-    const data = patients.find((p) => p.patientId === patientId);
-
-    if (!data) {
-      // Patient not found - show error message
-      messageDiv.textContent = "Patient not found. Please check the Patient ID.";
+    // Validate input
+    if (!patientId) {
+      messageDiv.textContent = "⚠️ Please enter a valid Patient ID.";
       messageDiv.classList.add("error");
-
-      // Hide action buttons
-      document.getElementById("downloadBtn").style.display = "none";
-      document.getElementById("shareBtn").style.display = "none";
-      document.getElementById("editBtn").style.display = "none";
       return;
     }
 
-    // Patient found - show success message
-    messageDiv.textContent = "✅ Patient found successfully!";
-    messageDiv.classList.add("success");
+    try {
+      const response = await fetch("/patients");
+      if (!response.ok) throw new Error("Failed to load patient data.");
+      const patients = await response.json();
+      const data = patients.find((p) => p.patientId === patientId);
 
-    // Auto-hide success message after 3 seconds
-    setTimeout(() => {
-      messageDiv.textContent = "";
-      messageDiv.className = "message";
-    }, 3000);
+      if (!data) {
+        // Patient not found - show error message
+        messageDiv.textContent =
+          "Patient not found. Please check the Patient ID.";
+        messageDiv.classList.add("error");
 
-    currentPatient = data;
+        // Hide action buttons
+        document.getElementById("downloadBtn").style.display = "none";
+        document.getElementById("shareBtn").style.display = "none";
+        document.getElementById("editBtn").style.display = "none";
+        return;
+      }
 
-    // Update UI
-    document.getElementById("displayCardNo").innerText = data.cardNo || "N/A";
-    document.getElementById("displayId").innerText = data.patientId;
-    document.getElementById("displayName").innerText = data.patientName;
-    document.getElementById("displayPhone").innerText = data.phoneNumber;
-    document.getElementById("displayDiscount").innerText = data.discount + "%";
-    document.getElementById("displayExpiry").innerText = data.validTill;
+      // Patient found - show success message
+      messageDiv.textContent = "✅ Patient found successfully!";
+      messageDiv.classList.add("success");
 
-    // Generate QR Code
-    document.getElementById("qrcode").innerHTML = "";
-    new QRCode(document.getElementById("qrcode"), {
-      text: `Patient ID: ${data.patientId}
-Name: ${data.patientName}
-Phone: ${data.phoneNumber}
-Discount: ${data.discount}%
-Valid Till: ${data.validTill}`,
-      width: 120,
-      height: 120,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+      // Auto-hide success message after 3 seconds
+      setTimeout(() => {
+        messageDiv.textContent = "";
+        messageDiv.className = "message";
+      }, 3000);
 
-    // Show action buttons
-    document.getElementById("downloadBtn").style.display = "inline-block";
-    document.getElementById("shareBtn").style.display = "inline-block";
-    document.getElementById("editBtn").style.display = "inline-block";
-    patientDetails.style.display = "block";
-    patientDetails.classList.add("active");
+      currentPatient = data;
 
-    // Show Generate Card button
-    generateCardBtn.style.display = "inline-block";
+      // Update UI
+      document.getElementById("displayCardNo").innerText = data.cardNo || "N/A";
+      document.getElementById("displayId").innerText = data.patientId;
+      document.getElementById("displayName").innerText = data.patientName;
+      document.getElementById("displayPhone").innerText = data.phoneNumber;
+      document.getElementById("patientAddress").innerText =
+        data.address || "!Not Provided";
+      document.getElementById("displayDiscount").innerText =
+        data.discount + "%";
+      document.getElementById("displayExpiry").innerText = data.validTill;
 
-  } catch (error) {
-    messageDiv.textContent = "❌ Error: " + error.message;
-    messageDiv.classList.add("error");
-  }
-});
+      // Generate QR Code
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: `Patient ID: ${data.patientId}
+        Name: ${data.patientName}
+        Phone: ${data.phoneNumber}
+        Address: ${data.address || "Not Provided"}
+        Discount: ${data.discount}%
+        Valid Till: ${data.validTill}`,
+        width: 120,
+        height: 120,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+
+      // Show action buttons
+      document.getElementById("downloadBtn").style.display = "inline-block";
+      document.getElementById("shareBtn").style.display = "inline-block";
+      document.getElementById("editBtn").style.display = "inline-block";
+      patientDetails.style.display = "block";
+      patientDetails.classList.add("active");
+
+      // Show Generate Card button
+      generateCardBtn.style.display = "inline-block";
+    } catch (error) {
+      messageDiv.textContent = "❌ Error: " + error.message;
+      messageDiv.classList.add("error");
+    }
+  });
 
 // Download card
 document.getElementById("downloadBtn").addEventListener("click", function () {
@@ -118,7 +124,7 @@ document.getElementById("shareBtn").addEventListener("click", () => {
             files: [file],
           });
         } catch (err) {
-          if (err.name !== 'AbortError') {
+          if (err.name !== "AbortError") {
             alert("Error sharing: " + err.message);
           }
         }
@@ -139,9 +145,10 @@ document.getElementById("editBtn").addEventListener("click", () => {
   document.getElementById("editPhone").value = currentPatient.phoneNumber;
   document.getElementById("editDiscount").value = currentPatient.discount;
   document.getElementById("editExpiry").value = currentPatient.validTill;
+  document.getElementById("editAddress").value = currentPatient.address || "";
 
   // Scroll to edit form
-  editForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  editForm.scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
 // Save changes
@@ -151,13 +158,32 @@ document.getElementById("saveEditBtn").addEventListener("click", async () => {
   const updatedPatient = {
     patientName: document.getElementById("editName").value.trim(),
     phoneNumber: document.getElementById("editPhone").value.trim(),
+    address: document.getElementById("editAddress").value.trim(),
     discount: parseInt(document.getElementById("editDiscount").value.trim()),
     validTill: document.getElementById("editExpiry").value,
   };
 
   // Validate updated data
-  if (!updatedPatient.patientName || !updatedPatient.phoneNumber || !updatedPatient.discount || !updatedPatient.validTill) {
+  if (
+    !updatedPatient.patientName ||
+    !updatedPatient.phoneNumber ||
+    !updatedPatient.discount ||
+    !updatedPatient.validTill
+  ) {
     alert("⚠️ Please fill in all fields!");
+    return;
+  }
+
+  // Validate phone number (10 digits)
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(updatedPatient.phoneNumber)) {
+    alert("⚠️ Phone number must be exactly 10 digits!");
+    return;
+  }
+
+  // Validate address length
+  if (updatedPatient.address && updatedPatient.address.length > 60) {
+    alert("⚠️ Address cannot exceed 60 characters!");
     return;
   }
 
@@ -196,6 +222,22 @@ const ctx = cardCanvas.getContext("2d");
 const templateImage = new Image();
 templateImage.src = "card.jpg"; // Make sure this path is correct
 
+// Address splitting function for 2-line display
+function splitAddress(address) {
+  if (!address || address.length <= 30) {
+    return { line1: address || "Not provided", line2: "" };
+  }
+
+  // Find best split point (prefer word boundary)
+  let splitPoint = address.lastIndexOf(" ", 30);
+  if (splitPoint === -1) splitPoint = 30;
+
+  return {
+    line1: address.substring(0, splitPoint).trim(),
+    line2: address.substring(splitPoint).trim(),
+  };
+}
+
 function drawPatientCard(patient) {
   canvasContainer.style.display = "block";
   ctx.clearRect(0, 0, cardCanvas.width, cardCanvas.height);
@@ -209,21 +251,29 @@ function drawPatientCard(patient) {
     ctx.fillRect(0, 0, cardCanvas.width, cardCanvas.height);
   }
 
-  // Draw patient details
-  ctx.font = "20px Arial";
+  // Draw patient details with updated positioning for new card
+  ctx.font = "18px Arial";
   ctx.fillStyle = "#000";
-  ctx.fillText(patient.patientId, 560, 195);
-  ctx.fillText(patient.patientName, 560, 260);
-  ctx.fillText(patient.phoneNumber, 560, 340);
+  ctx.fillText(patient.patientId, 500, 188);
+  ctx.fillText(patient.patientName, 500, 235);
+  ctx.fillText(patient.phoneNumber, 500, 280);
+
+  // Address - 2 lines with smart splitting
+  const addressLines = splitAddress(patient.address || "Not provided");
+  ctx.fillText(addressLines.line1, 480, 330); // Line 1
+  if (addressLines.line2) {
+    ctx.fillText(addressLines.line2, 480, 355); // Line 2
+  }
+
   ctx.font = "bold 16px Arial";
-  ctx.fillText(`Discount: ${patient.discount}%`, 450, 400);
-  ctx.fillText(`Valid Till: ${patient.validTill}`, 450, 430);
+  ctx.fillText(`Discount: ${patient.discount}%`, 455, 400);
+  ctx.fillText(`Valid Till: ${patient.validTill}`, 455, 425);
 
   // Show canvas buttons - NEW
   showCanvasButtons();
 
   // Scroll to canvas
-  canvasContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  canvasContainer.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 // Generate card on button click
@@ -251,72 +301,83 @@ function showCanvasButtons() {
 }
 
 // Canvas Download functionality
-document.getElementById("downloadCanvasBtn").addEventListener("click", function() {
-  const canvas = document.getElementById("cardCanvas");
-  const imgURI = canvas.toDataURL("image/png");
-  const a = document.createElement("a");
-  a.href = imgURI;
-  a.download = "nector_patient_card.png";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-});
+document
+  .getElementById("downloadCanvasBtn")
+  .addEventListener("click", function () {
+    const canvas = document.getElementById("cardCanvas");
+    const imgURI = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = imgURI;
+    a.download = "nector_patient_card.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
 
 // Canvas Share functionality
-document.getElementById("shareCanvasBtn").addEventListener("click", async function() {
-  const canvas = document.getElementById("cardCanvas");
-  
-  try {
-    // Show loading state
-    const originalText = this.innerHTML;
-    this.innerHTML = "📤 Sharing...";
-    this.disabled = true;
+document
+  .getElementById("shareCanvasBtn")
+  .addEventListener("click", async function () {
+    const canvas = document.getElementById("cardCanvas");
 
-    // Convert canvas to blob
-    canvas.toBlob(async (blob) => {
-      try {
-        const file = new File([blob], "nector-patient-card.png", { 
-          type: "image/png" 
-        });
-        
-        // Check if Web Share API is supported
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: "Patient Card - Nector Hospital",
-            text: "Here is the patient card from Nector Hospital.",
-            files: [file]
-          });
-        } else {
-          // Fallback: Create download link for desktop
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = "nector-patient-card.png";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-          
-          alert("Card downloaded! (Sharing not supported on this device)");
-        }
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error("Error sharing:", error);
-          alert("Error sharing card. Please try again.");
-        }
-      } finally {
-        // Restore button state
-        this.innerHTML = originalText;
-        this.disabled = false;
-      }
-    }, 'image/png', 0.9);
-    
-  } catch (error) {
-    console.error("Error creating image:", error);
-    alert("Error creating card image. Please try again.");
-    
-    // Restore button state
-    this.innerHTML = originalText;
-    this.disabled = false;
-  }
-});
+    try {
+      // Show loading state
+      const originalText = this.innerHTML;
+      this.innerHTML = "📤 Sharing...";
+      this.disabled = true;
+
+      // Convert canvas to blob
+      canvas.toBlob(
+        async (blob) => {
+          try {
+            const file = new File([blob], "nector-patient-card.png", {
+              type: "image/png",
+            });
+
+            // Check if Web Share API is supported
+            if (
+              navigator.share &&
+              navigator.canShare &&
+              navigator.canShare({ files: [file] })
+            ) {
+              await navigator.share({
+                title: "Patient Card - Nector Hospital",
+                text: "Here is the patient card from Nector Hospital.",
+                files: [file],
+              });
+            } else {
+              // Fallback: Create download link for desktop
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = "nector-patient-card.png";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              URL.revokeObjectURL(url);
+
+              alert("Card downloaded! (Sharing not supported on this device)");
+            }
+          } catch (error) {
+            if (error.name !== "AbortError") {
+              console.error("Error sharing:", error);
+              alert("Error sharing card. Please try again.");
+            }
+          } finally {
+            // Restore button state
+            this.innerHTML = originalText;
+            this.disabled = false;
+          }
+        },
+        "image/png",
+        0.9
+      );
+    } catch (error) {
+      console.error("Error creating image:", error);
+      alert("Error creating card image. Please try again.");
+
+      // Restore button state
+      this.innerHTML = originalText;
+      this.disabled = false;
+    }
+  });

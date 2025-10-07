@@ -39,10 +39,12 @@
           <label for="phoneNumber">Phone Number:</label>
           <input type="tel" id="phoneNumber" name="phoneNumber" required />
         </div>
-
-        <label for="address">Address:</label>
-        <textarea name="address" id="address" maxlength="100" rows="2" placeholder="Enter address" required></textarea>
-        <div id="charCount" style="font-size: 12px; color: #666; margin-top: 5px;">100 characte</div>
+        <div class="input-group address">
+          <label for="address">Address:</label>
+          <textarea name="address" id="address" maxlength="60" rows="2" placeholder="Enter address"
+            required></textarea>
+          <div id="charCount" style="font-size: 12px; color: #666; margin-top: 5px;">60 character</div>
+        </div>
 
         <div class="input-group">
           <label for="discountPercent">Select Discount Percentage:</label>
